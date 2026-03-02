@@ -1,0 +1,45 @@
+name: PhotoArchiverMac
+options:
+  minimumXcodeGenVersion: 2.38.0
+settings:
+  base:
+    SWIFT_VERSION: 5.0
+targets:
+  PhotoArchiverMac:
+    type: application
+    platform: macOS
+    deploymentTarget: "13.0"
+    sources:
+      - path: PhotoArchiverMac
+    preBuildScripts:
+      - name: Embed Backend Service
+        script: |
+          set -euo pipefail
+          if ! command -v go >/dev/null 2>&1; then
+            echo "error: go toolchain not found in PATH"
+            exit 1
+          fi
+          mkdir -p "${SRCROOT}/build/backend"
+          if [ ! -f "${SRCROOT}/build/backend/photo-archiver-service" ]; then
+            (
+              cd "${SRCROOT}/.."
+              CGO_ENABLED=1 GOOS=darwin GOARCH=$(uname -m | sed 's/aarch64/arm64/;s/x86_64/amd64/') go build -o "${SRCROOT}/build/backend/photo-archiver-service" ./cmd/service
+            )
+          fi
+          mkdir -p "${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/backend"
+          cp "${SRCROOT}/build/backend/photo-archiver-service" "${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/backend/photo-archiver-service"
+          chmod +x "${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/backend/photo-archiver-service"
+          cp "${SRCROOT}/../docs/DB_SCHEMA.sql" "${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/backend/DB_SCHEMA.sql"
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.photoarchiver.mac
+        PRODUCT_NAME: PhotoArchiverMac
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_CFBundleDisplayName: 照片归档
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.photography
+        INFOPLIST_KEY_NSHumanReadableCopyright: Copyright © 2026
+scheme:
+  gatherCoverageData: false
+  targets:
+    PhotoArchiverMac: all

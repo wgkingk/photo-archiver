@@ -1,0 +1,17 @@
+.DS_Store
+
+# Local runtime data
+data/
+dist/
+
+# Swift build artifacts
+mac-app/.build/
+mac-app/build/
+mac-app/.swiftpm/
+
+# Xcode user data
+*.xcworkspace/xcuserdata/
+*.xcodeproj/xcuserdata/
+*.xcodeproj/project.xcworkspace/xcuserdata/
+**/xcuserdata/
+*.xcuserstate
