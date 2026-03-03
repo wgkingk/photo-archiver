@@ -15,6 +15,7 @@
 - `docs/DB_SCHEMA.sql`: SQLite 表结构初始化脚本
 - `docs/SWIFTUI_MIGRATION.md`: SwiftUI 迁移落地说明
 - `docs/PROJECT_JOURNEY.md`: 项目动机、设计与开发过程总结
+- `docs/JOURNAL.md`: 项目日志与运行界面记录（含截图）
 - `docs/prd-design.md`: 早期草案（已由上述文档细化）
 - `mac-app/`: SwiftUI 原生前端骨架
 
