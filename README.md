@@ -2,6 +2,37 @@
 
 一个使用 Go 开发的照片归档与备份工具仓库。
 
+## AI 开发说明
+
+本项目从需求整理、架构设计、代码实现、UI 开发、打包发布到文档沉淀，**全程由 AI（Codex）协作完成**。
+
+- 需求与设计：PRD、技术设计、迁移方案、开发日志
+- 后端能力：Go 导入核心、SQLite、API 服务
+- 前端能力：SwiftUI 页面、任务管理、状态面板
+- 交付流程：一键打包与 GitHub Release 制品
+
+## 运行界面
+
+### 运行中
+
+![运行中](docs/images/running.png)
+
+### 导入页
+
+![导入页](docs/images/import.png)
+
+### 目录选择
+
+![目录选择](docs/images/select_dic.png)
+
+### 任务页
+
+![任务页](docs/images/task.png)
+
+### 设置页
+
+![设置页](docs/images/setting.png)
+
 ## 目录说明
 
 - `docs/`: 需求、设计与开发文档
@@ -19,15 +50,35 @@
 - `docs/prd-design.md`: 早期草案（已由上述文档细化）
 - `mac-app/`: SwiftUI 原生前端骨架
 
-## 下一步
-
-1. 初始化 Go 模块并搭建基础工程结构。
-2. 根据 `docs/TECH_DESIGN.md` 先实现 import 核心流程。
-3. 根据 `docs/DB_SCHEMA.sql` 完成 migration 与 repository 层。
-
 ## 快速开始
 
-1. 执行数据库初始化：
+推荐普通用户使用“直接下载运行”，**无需命令行**。
+
+1. 打开 Releases 页面下载最新版本：
+
+- https://github.com/wgkingk/photo-archiver/releases
+
+2. 下载并解压 `PhotoArchiverMac-*.zip`，双击打开 `PhotoArchiverMac.app`。
+
+> 如果首次打开出现 macOS 安全提示（“无法验证开发者”），请按以下方式处理：
+>
+> - 在 Finder 中对 `PhotoArchiverMac.app` 点击右键 -> “打开”
+> - 在弹窗中再次点击“打开”
+> - 或前往“系统设置 -> 隐私与安全性”，允许该应用后再打开
+
+3. 首次启动时，进入“导入”页：
+
+- 选择来源目录（内存卡挂载目录）
+- 选择目标目录（备份目录）
+- 点击“开始导入”
+
+4. 在“任务”页查看进度、失败重试、删除或中止任务；在“设置”页查看后端状态并可重启。
+
+## 开发者运行（可选）
+
+如果你是开发者或需要本地调试，可以使用以下命令：
+
+1. 初始化数据库：
 
 ```bash
 go run ./cmd/cli migrate --db ./data/photo_archiver.db --schema ./docs/DB_SCHEMA.sql
@@ -57,7 +108,7 @@ go run ./cmd/app --db ./data/photo_archiver.db --schema ./docs/DB_SCHEMA.sql
 go run ./cmd/service --addr 127.0.0.1:38080 --db ./data/photo_archiver.db --schema ./docs/DB_SCHEMA.sql
 ```
 
-6. 启动 SwiftUI 前端（Xcode 打开 Package）：
+6. 启动 SwiftUI 前端：
 
 ```bash
 cd ./mac-app && open PhotoArchiverMac.xcodeproj
